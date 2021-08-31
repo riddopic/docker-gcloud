@@ -1,0 +1,42 @@
+# encoding: UTF-8
+
+FROM       {{from}}
+MAINTAINER The Blue Beluga Company <admin@bluebeluga.io>
+
+ARG VCS_REF
+ARG VCS_URL
+ARG VERSION
+ARG BUILD_DATE
+
+LABEL org.label-schema.vendor="The Blue Beluga Company" \
+      org.label-schema.url=http://blue-beluga.github.io/docker-gcloud/latest/ \
+      org.label-schema.name=docker-gcloud \
+      org.label-schema.license=MIT \
+      org.label-schema.version=$VERSION \
+      org.label-schema.vcs-url=$VCS_URL \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.schema-version=1.0 \
+      io.bluebeluga.gcloud.dockerfile=/Dockerfile
+
+RUN set -x \
+ && apk-install --no-cache git py3-pip \
+ && mkdir -p /builder \
+ && wget -qO- https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz \
+    | tar zxv -C /builder \
+ && /builder/google-cloud-sdk/install.sh \
+      --usage-reporting=false \
+      --bash-completion=false \
+      --disable-installation-options \
+ && pip install -U crcmod \
+ && pip3 install -U crcmod \
+ && apk del py3-pip \
+ && rm -rf /var/cache/apk/* \
+ && rm -rf ~/.config/gcloud
+
+COPY files/notice.sh /builder
+
+ENV PATH=/builder/google-cloud-sdk/bin/:$PATH
+RUN git config --system credential.helper gcloud.sh
+
+ENTRYPOINT ["/builder/notice.sh"]

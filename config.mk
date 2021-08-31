@@ -1,0 +1,11 @@
+# encoding: UTF-8
+
+FROM_REGISTRY=docker.io
+FROM_REPOSITORY=bluebeluga/python
+FROM_TAG=3
+ALPINE_VERSION=3.14
+
+REGISTRY=docker.io
+REPOSITORY=bluebeluga/gcloud
+
+PUSH_REGISTRIES=$(REGISTRY)
