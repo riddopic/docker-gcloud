@@ -1,5 +1,5 @@
 
-![bluebeluga/alpine](https://raw.githubusercontent.com/blue-beluga/docker-gcloud/master/docs/images/bluebeluga.png)
+![bluebeluga/alpine](https://raw.githubusercontent.com/blue-beluga/docker-alpine/master/docs/images/bluebeluga.png)
 
 # bluebeluga/gcloud
 
